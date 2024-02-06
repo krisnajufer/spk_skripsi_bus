@@ -11,7 +11,13 @@
 							<div class="form-group">
 								<label for="kriteria">Kriteria: </label>
 								<textarea class="form-control" id="kriteria" rows="3" name="kriteria"></textarea>
+								
 							</div>
+							<div class="form-group">
+								<label for="kriteria">Bobot: </label>
+								<input class="form-control" id="bobot" type="number" name="bobot"></input>
+							</div>
+							
 							<input type="text" name="id_kriteria" id="id_kriteria" hidden>
 						</div>
 					</div>

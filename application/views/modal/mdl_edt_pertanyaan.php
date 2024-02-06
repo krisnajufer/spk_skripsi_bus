@@ -8,6 +8,16 @@
 				<form method="POST" id="form_tanya">
 					<div class="row">
 						<div class="col">
+						<div class="form-group">
+							<label for="pertanyaan">Kriteria :</label>
+							<select class="form-control" id="pertanyaan" name="kriteria">
+								<option value="option1">Pilihan 1</option>
+								<option value="option2">Pilihan 2</option>
+								<option value="option3">Pilihan 3</option>
+								<!-- Tambahkan pilihan lainnya sesuai kebutuhan -->
+							</select>
+						</div>
+
 							<div class="form-group">
 								<label for="pertanyaan">Pertanyaan :</label>
 								<textarea class="form-control" id="pertanyaan" rows="3" name="pertanyaan"></textarea>

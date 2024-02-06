@@ -14,6 +14,7 @@
 				$('#headtitle').text('Edit Data');
 				$('#mdl_kriteria').modal('show');
 				$('[name="kriteria"]').val(data.kriteria);
+				$('[name="bobot"]').val(data.bobot);
 				$('[name="id_kriteria"]').val(data.id_kriteria);
 			},
 			error: function (data) {
@@ -65,6 +66,7 @@
 							<tr>
 								<th>No.</th>
 								<th>Kriteria</th>
+								<th>Bobot</th>
 								<th class="text-center">Opsi</th>
 							</tr>
 						</thead>

@@ -26,8 +26,13 @@
 <div class="row justify-content-center">
 	<div class="col-lg-10">
 		<div class="card border-left-warning shadow mb-4">
-			<div class="card-header py-3">
+			<!-- <div class="card-header py-3">
 				<h6 class="text-center m-0 font-weight-bold text-warning">Data Pertanyaan</h6>
+				<button class="btn btn-primary" onclick="$('#mdl_kriteria').modal('show')">Tambah Data</button>
+			</div> -->
+			<div class="card-header py-3 d-flex justify-content-between align-items-center">
+				<h6 class="text-center m-0 font-weight-bold text-warning">Data Pertanyaan</h6>
+				<button class="btn btn-primary" onclick="$('#mdl_tanya').modal('show')">Tambah Data</button>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

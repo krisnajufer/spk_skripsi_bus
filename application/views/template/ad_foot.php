@@ -289,6 +289,7 @@
 							html+= '<tr>'+
 							'<td>'+(i+1)+'</td>'+
 							'<td>'+data[i].kriteria+'</td>'+
+							'<td>'+data[i].bobot+'</td>'+
 							'<td class="text-center">'+
 							'<button class="btn btn-sm btn-warning m-1" onclick="edt_kriteria('+
 							data[i].id_kriteria+
@@ -306,6 +307,7 @@
 			
 			$('#simp_kriteria').click(function(e) {
 				let inputKriteria = $('#kriteria').val()
+				let inputBobot = $('#bobot').val()
 				let id_kriteria = $('[name="id_kriteria"]').val();
 				
 				if(inputKriteria == '')
@@ -318,7 +320,8 @@
 						url: "<?= base_url('simpan_kriteria') ?>",
 						data: {
 							'id_kriteria': id_kriteria,
-							'kriteria' : inputKriteria
+							'kriteria' : inputKriteria,
+							'bobot' : inputBobot
 						},
 						success: function(data)
 						{

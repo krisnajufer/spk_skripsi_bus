@@ -78,6 +78,7 @@ class C_admin extends CI_Controller {
 	{
 		$postData = $this->input->post('id_kriteria');
 		$getDataKriteria = $this->madmin->get_kriteria($postData);
+		
 
 		echo json_encode($getDataKriteria);
 	}
@@ -104,6 +105,7 @@ class C_admin extends CI_Controller {
 			redirect('beranda');
 		}
 		$data['title'] = 'Admin - Data Pertanyaan';
+		
 		$this->load->view('template/ad_head', $data);
 		$this->load->view('back/data_pertanyaan', $data);
 		$this->load->view('modal/mdl_edt_pertanyaan', $data);
