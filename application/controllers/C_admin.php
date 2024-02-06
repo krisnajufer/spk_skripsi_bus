@@ -39,7 +39,62 @@ class C_admin extends CI_Controller {
 		$this->load->view('template/ad_head', $data);
 		$this->load->view('back/data_kriteria', $data);
 		$this->load->view('modal/mdl_edt_kriteria', $data);
+		$this->load->view('modal/mdl_adduser', $data);
 		$this->load->view('template/ad_foot', $data);
+	}
+
+	public function save_kriteria()
+	{
+		$postData = $this->input->post();
+		$result = 0;
+
+		try
+		{
+			$getData = $this->madmin->get_kriteria_by_name($postData['kriteria']);
+			
+			if(empty($getData) && empty($postData['id_kriteria']))
+			{
+				$insertData = $this->madmin->insert_kriteria($postData);
+	
+				if(!empty($insertData))
+				{
+					$result = 1;
+				}
+			}else{
+				$id_kriteria = $postData['id_kriteria'];
+				$updateData = $this->madmin->update_kriteria($id_kriteria,$postData);
+
+				print_r($updateData);die;
+			}
+
+			echo json_encode($result);
+		}catch(\Exception $ex)
+		{
+			print_r($ex->getMessage());die;
+		}
+	}
+
+	public function edit_kriteria()
+	{
+		$postData = $this->input->post('id_kriteria');
+		$getDataKriteria = $this->madmin->get_kriteria($postData);
+
+		echo json_encode($getDataKriteria);
+	}
+
+	public function delete_kriteria()
+	{
+		$postData = $this->input->post();
+
+		try
+		{
+			$deleteData = $this->madmin->delete_kriteria($postData['id_kriteria']);
+
+			echo json_encode($deleteData);
+		}catch(\Exception $ex)
+		{
+			print_r($ex->getMessage());die;
+		}
 	}
 
 	public function datapertanyaan()
@@ -64,6 +119,7 @@ class C_admin extends CI_Controller {
 		$data['title'] = 'Admin - Data Perhitungan';
 		$this->load->view('template/ad_head', $data);
 		$this->load->view('back/data_perhitungan', $data);
+		$this->load->view('modal/mdl_detail_perhitungan', $data);
 		$this->load->view('template/ad_foot', $data);
 	}
 
@@ -265,6 +321,7 @@ class C_admin extends CI_Controller {
 			$row[] = $sp->namap.' - '.$sp->bentuk;
 			$row[] = $sp->skor_akhir;
 			$row[] = $sp->nama;
+			$row[] = '<button class="btn btn-sm btn-warning m-1" onclick="detail_perhitungan('.$sp->id_detail.');"><i class="fas fa-pen-square"></i></button>';
 			$data[] = $row;
 		}
 		$output = array(
@@ -274,6 +331,21 @@ class C_admin extends CI_Controller {
 			"data" => $data,
 		);
 		echo json_encode($output);
+	}
+
+	public function detail_perhitungan()
+	{
+		$postData = $this->input->post();
+
+		try
+		{
+			$getDetailPerhitungan = $this->madmin->detailPerhitungan($postData['id_detail']);
+
+			echo json_encode($getDetailPerhitungan);
+		}catch(\Exception $ex)
+		{
+			print_r($ex->getMessage());die;
+		}
 	}
 
 	public function cekusername_user()

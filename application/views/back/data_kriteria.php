@@ -1,8 +1,11 @@
 <script type="text/javascript">
 	function edt_kriteria(id) {
 		$.ajax({
-			type: "ajax",
-			url: "<?= base_url('pil_kriteria/') ?>"+id,
+			type: "post",
+			url: "<?= base_url('edit_kriteria') ?>",
+			data: {
+				'id_kriteria' : id
+			},
 			async: false,
 			dataType: "json",
 			success: function (data) {
@@ -18,6 +21,30 @@
 			}
 		});
 	}
+
+	function delete_kriteria(id)
+	{
+		$.ajax({
+			type: "post",
+			url: "<?= base_url('delete_kriteria') ?>",
+			data: {
+				'id_kriteria': id
+			},
+			dataType: "json",
+			success: function(data){
+				if(data)
+				{
+					swal('Berhasil Hapus Data')
+					setTimeout(function() {
+						location.reload();
+					}, 1000)
+				}
+			},
+			error: function (data){
+				swal('Gagal Hapus Data!');
+			}
+		})
+	}
 </script>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -27,8 +54,9 @@
 <div class="row justify-content-center">
 	<div class="col-lg-6">
 		<div class="card border-left-info shadow mb-4">
-			<div class="card-header py-3">
+			<div class="card-header py-3 d-flex justify-content-between align-items-center">
 				<h6 class="text-center m-0 font-weight-bold text-info">Data Kriteria</h6>
+				<button class="btn btn-primary" onclick="$('#mdl_kriteria').modal('show')">Tambah Data</button>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

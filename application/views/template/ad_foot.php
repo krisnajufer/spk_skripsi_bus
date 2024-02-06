@@ -276,6 +276,7 @@
 			tampil_kriteria();
 			function tampil_kriteria() {
 				pop_edt = 'data-toggle="tooltip" title="Edit Data"';
+				pop_delete = 'data-toggle="tooltip" title="Delete Data"';
 				$.ajax({
 					type: "ajax",
 					url: "<?= base_url('list_kriteria') ?>",
@@ -292,6 +293,9 @@
 							'<button class="btn btn-sm btn-warning m-1" onclick="edt_kriteria('+
 							data[i].id_kriteria+
 							');" '+pop_edt+'><i class="fas fa-pen-square"></i></button>'+
+							'<button class="btn btn-sm btn-danger m-1" onclick="delete_kriteria('+
+							data[i].id_kriteria+
+							');" '+pop_delete+'><i class="fas fa-trash"></i></button>'+
 							'</td>'+
 							'</tr>';
 						}
@@ -299,6 +303,43 @@
 					}
 				});
 			}
+			
+			$('#simp_kriteria').click(function(e) {
+				let inputKriteria = $('#kriteria').val()
+				let id_kriteria = $('[name="id_kriteria"]').val();
+				
+				if(inputKriteria == '')
+				{
+					swal('Data Kriteria Tidak Boleh Kosong!')
+				}else
+				{
+					$.ajax({
+						type: "post",
+						url: "<?= base_url('simpan_kriteria') ?>",
+						data: {
+							'id_kriteria': id_kriteria,
+							'kriteria' : inputKriteria
+						},
+						success: function(data)
+						{
+							if(data == 1)
+							{
+								console.log(12)
+								swal('Berhasil Menyimpan Data')
+								setTimeout(function() {
+									location.reload();
+								}, 1000)
+							}
+						},
+						error: function(error){
+							swal('Terjadi Kesalahan Error!');
+							console.log(error)
+						}
+					})
+				}
+
+			})
+
 			<?php } ?>
 
 			<?php if ($p == 'pertanyaan') { ?>
@@ -655,6 +696,7 @@
 					success: function (data) {
 						var html = '';
 						var i;
+						console.log(data)
 						for (i = 0; i < data.length; i++) {
 							html+= '<tr>'+
 							'<td>'+(i+1)+'</td>'+
@@ -662,6 +704,11 @@
 							'<td>'+data[i].namap+' '+data[i].bentuk+'</td>'+
 							'<td>'+data[i].skor_akhir+'</td>'+
 							'<td>'+data[i].nama+'</td>'+
+							'<td class="text-center">'+
+							'<button class="btn btn-sm btn-warning m-1" onclick="detail_perhitungan('+
+							data[i].id_detail+
+							');"><i class="fas fa-pen-square"></i></button>'+
+							'</td>'+
 							'</tr>';
 						}
 						$('#show_perhitungan').html(html);

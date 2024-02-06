@@ -18,7 +18,7 @@
 				</form>
 			</div>
 			<div class="modal-footer form-group justify-content-center">
-				<button class="btn btn-sm btn-success" id="simp_tanya">
+				<button class="btn btn-sm btn-success" id="simp_kriteria" type="submit">
 					<i class="fas fa-save"></i>&nbsp; Simpan
 				</button>
 				<button class="btn btn-sm btn-danger" type="button" data-dismiss="modal">

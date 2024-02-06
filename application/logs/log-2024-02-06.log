@@ -1,0 +1,10 @@
+ERROR - 2024-02-06 01:10:50 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES) C:\laragon\www\spk-skripsi\system\database\drivers\mysqli\mysqli_driver.php 203
+ERROR - 2024-02-06 01:10:50 --> Unable to connect to the database
+ERROR - 2024-02-06 01:12:02 --> Query error: Table 'db_smart.ci_sessions' doesn't exist - Invalid query: SELECT `data`
+FROM `ci_sessions`
+WHERE `id` = '7oer0jra4ie04frlud5hd9r78ntkm626'
+ERROR - 2024-02-06 01:12:02 --> Severity: Warning --> session_write_close(): Cannot call session save handler in a recursive manner Unknown 0
+ERROR - 2024-02-06 01:12:02 --> Severity: Warning --> session_write_close(): Failed to write session data using user defined save handler. (session.save_path: C:/laragon/tmp) Unknown 0
+ERROR - 2024-02-06 01:13:18 --> Query error: Table 'db_smart.ci_sessions' doesn't exist - Invalid query: SELECT 1
+FROM `ci_sessions`
+WHERE `id` = '7oer0jra4ie04frlud5hd9r78ntkm626'

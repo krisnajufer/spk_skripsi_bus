@@ -54,10 +54,28 @@ class M_admin extends CI_Model {
 		$q = $this->db->get();
 		return $q->row();
 	}
+	public function get_kriteria_by_name($name)
+	{
+		$query = "SELECT * FROM tbl_kriteria WHERE kriteria LIKE '%".$name."%'";
+		
+		$result = $this->db->query($query);
+
+		return $result->row();
+	}
 	public function update_kriteria($id_kriteria,$data)
 	{
 		$this->db->where('id_kriteria', $id_kriteria);
 		return $this->db->update('tbl_kriteria', $data);
+	}
+	public function insert_kriteria($data)
+	{
+		$this->db->insert('tbl_kriteria',$data);
+		return $this->db->insert_id();
+	}
+	public function delete_kriteria($id)
+	{
+		$this->db->where('id_kriteria', $id);
+		return $this->db->delete('tbl_kriteria');
 	}
 	public function kriteria_all()
 	{
@@ -139,6 +157,20 @@ class M_admin extends CI_Model {
 				$this->db->order_by(key($order), $order[key($order)]);
 			}
 		}
+	}
+	public function detailPerhitungan($id)
+	{
+		$query = "SELECT a.id_detail,a.normalisasi,a.utilities,b.id_perhitungan,b.id_perusahaan,b.id_user,b.skor_akhir,
+		c.namap,c.bentuk,d.nama
+		FROM tbl_normalisasi a 
+		LEFT JOIN tbl_detail_perhitungan b ON a.id_detail = b.id_detail
+		LEFT JOIN tbl_perusahaan c ON b.id_perusahaan = c.id
+		LEFT JOIN tbl_user d ON b.id_user = d.id_user
+		WHERE a.id_detail = ?";
+
+		$result = $this->db->query($query,$id);
+
+		return $result->result();
 	}
 	function get_datatables()
 	{

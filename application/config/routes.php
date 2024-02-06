@@ -122,9 +122,12 @@ $route['del_user/(:any)'] = 'c_admin/delete_user/$1';
 $route['list_kriteria'] = 'c_admin/get_kriteria';
 $route['pil_kriteria/(:any)'] = 'c_admin/select_kriteria/$1';
 $route['simpan_kriteria'] = 'c_admin/save_kriteria';
+$route['delete_kriteria'] = 'c_admin/delete_kriteria';
+$route['edit_kriteria'] = 'c_admin/edit_kriteria';
 
 $route['list_pertanyaan'] = 'c_admin/get_pertanyaan';
 $route['pil_tanya/(:any)'] = 'c_admin/select_pertanyaan/$1';
 $route['simpan_pertanyaan'] = 'c_admin/save_pertanyaan';
 
 $route['list_perhitungan'] = 'c_admin/get_perhitungan';
+$route['detail_perhitungan'] = 'c_admin/detail_perhitungan';
