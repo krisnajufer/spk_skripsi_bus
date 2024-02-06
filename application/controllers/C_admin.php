@@ -104,6 +104,9 @@ class C_admin extends CI_Controller {
 		if (!$sesi) {
 			redirect('beranda');
 		}
+		$getKriteria = $this->madmin->list_kriteria();;
+
+		$data['kriteria'] = $getKriteria;
 		$data['title'] = 'Admin - Data Pertanyaan';
 		
 		$this->load->view('template/ad_head', $data);
@@ -292,8 +295,29 @@ class C_admin extends CI_Controller {
 	public function save_pertanyaan()
 	{
 		$id_pertanyaan = $this->input->post('id_pertanyaan');
-		$data = array('pertanyaan' => $this->input->post('pertanyaan'));
-		$result = $this->madmin->update_pertanyaan($id_pertanyaan,$data);
+		$pertanyaan = $this->input->post('pertanyaan');
+		$id_kriteria = $this->input->post('id_kriteria');
+		$result = 0;
+
+		if(empty($id_pertanyaan))
+		{
+			$data['pertanyaan'] = $pertanyaan;
+			$data['id_kriteria'] = $id_kriteria;
+			$result = $this->madmin->insert_pertanyaan($data);
+		}else
+		{
+			$data = array('pertanyaan' => $pertanyaan,'id_kriteria' => $id_kriteria);
+			$result = $this->madmin->update_pertanyaan($id_pertanyaan,$data);
+		}
+		echo json_encode($result);
+	}
+
+	public function delete_pertanyaan()
+	{
+		$id_pertanyaan = $this->input->post('id_pertanyaan');
+		
+		$result = $this->madmin->delete_pertanyaan($id_pertanyaan);
+
 		echo json_encode($result);
 	}
 

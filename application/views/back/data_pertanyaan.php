@@ -12,6 +12,31 @@
 				$('#mdl_tanya').modal('show');
 				$('[name="pertanyaan"]').val(data.pertanyaan);
 				$('[name="id_pertanyaan"]').val(data.id_pertanyaan);
+				$('#kriteria_select').val(data.id_kriteria)
+			},
+			error: function (data) {
+				swal('Terdapat Kesalahan');
+			}
+		});
+	}
+
+	function delete_pertanyaan(id){
+		$.ajax({
+			type: "post",
+			url: "<?= base_url('delete_pertanyaan') ?>",
+			data: {
+				'id_pertanyaan': id
+			},
+			async: false,
+			dataType: "json",
+			success: function (data) {
+				if(data)
+				{
+					toast_sukses_simpan();
+					setTimeout(()=>{
+						location.reload()
+					},1500)
+				}
 			},
 			error: function (data) {
 				swal('Terdapat Kesalahan');

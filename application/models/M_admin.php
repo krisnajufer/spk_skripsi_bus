@@ -101,10 +101,20 @@ class M_admin extends CI_Model {
 		$q = $this->db->get();
 		return $q->row();
 	}
+	public function insert_pertanyaan($data)
+	{
+		$this->db->insert('tbl_pertanyaan',$data);
+		return 1;
+	}
 	public function update_pertanyaan($id_pertanyaan,$data)
 	{
 		$this->db->where('id_pertanyaan', $id_pertanyaan);
 		return $this->db->update('tbl_pertanyaan', $data);
+	}
+	public function delete_pertanyaan($id_pertanyaan)
+	{
+		$this->db->where('id_pertanyaan', $id_pertanyaan);
+		return $this->db->delete('tbl_pertanyaan');
 	}
 	public function pertanyaan_all()
 	{

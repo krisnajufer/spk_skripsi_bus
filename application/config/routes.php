@@ -128,6 +128,7 @@ $route['edit_kriteria'] = 'c_admin/edit_kriteria';
 $route['list_pertanyaan'] = 'c_admin/get_pertanyaan';
 $route['pil_tanya/(:any)'] = 'c_admin/select_pertanyaan/$1';
 $route['simpan_pertanyaan'] = 'c_admin/save_pertanyaan';
+$route['delete_pertanyaan'] = 'c_admin/delete_pertanyaan';
 
 $route['list_perhitungan'] = 'c_admin/get_perhitungan';
 $route['detail_perhitungan'] = 'c_admin/detail_perhitungan';

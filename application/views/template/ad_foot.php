@@ -349,6 +349,7 @@
 			tampil_pertanyaan();
 			function tampil_pertanyaan() {
 				pop_edt = 'data-toggle="tooltip" title="Edit Data"';
+				pop_delete = 'data-toggle="tooltip" title="Delete Data"';
 				$.ajax({
 					type: "ajax",
 					url: "<?= base_url('list_pertanyaan') ?>",
@@ -366,6 +367,9 @@
 							'<button class="btn btn-sm btn-warning m-1" onclick="edt_pertanyaan('+
 							data[i].id_pertanyaan+
 							');" '+pop_edt+'><i class="fas fa-pen-square"></i></button>'+
+							'<button class="btn btn-sm btn-danger m-1" onclick="delete_pertanyaan('+
+							data[i].id_pertanyaan+
+							');" '+pop_delete+'><i class="fas fa-trash"></i></button>'+
 							'</td>'+
 							'</tr>';
 						}
@@ -380,7 +384,12 @@
 					data: $('#form_tanya').serialize(),
 					success: function (data){
 						$('#mdl_tanya').modal('hide');
-						toast_sukses_simpan();tampil_pertanyaan();
+						if(data)
+						{
+							toast_sukses_simpan();tampil_pertanyaan();
+						}else{
+							toast_gagal_simpan()
+						}
 					},
 					error: function(data){
 						toast_gagal_simpan();

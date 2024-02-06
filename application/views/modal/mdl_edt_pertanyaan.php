@@ -10,11 +10,10 @@
 						<div class="col">
 						<div class="form-group">
 							<label for="pertanyaan">Kriteria :</label>
-							<select class="form-control" id="pertanyaan" name="kriteria">
-								<option value="option1">Pilihan 1</option>
-								<option value="option2">Pilihan 2</option>
-								<option value="option3">Pilihan 3</option>
-								<!-- Tambahkan pilihan lainnya sesuai kebutuhan -->
+							<select class="form-control" id="kriteria_select" name="id_kriteria">
+								<?php foreach($kriteria as $key => $value): ?>
+									<option value="<?php echo $value->id_kriteria ?>"><?php echo $value->kriteria ?></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 
