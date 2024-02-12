@@ -1,13 +1,14 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class C_perusahaan extends CI_Controller {
+class C_perusahaan extends CI_Controller
+{
 
 	public function __construct()
 	{
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
-		$this->load->model('M_perusahaan','msmart');
+		$this->load->model('M_perusahaan', 'msmart');
 	}
 
 	public function index()
@@ -38,29 +39,29 @@ class C_perusahaan extends CI_Controller {
 			$row[] = $no;
 			$row[] = $sp->namap;
 			$row[] = $sp->bentuk;
-			$row[] = $sp->tipe.'"';
+			$row[] = $sp->tipe . '"';
 			$row[] = $sp->toilet;
 			$row[] = $sp->smoking;
-			$row[] = $sp->kapasitas.' Seat / '.$sp->tseat.' Seat';
-			$row[] = $sp->cepat.' KMJ';
+			$row[] = $sp->kapasitas . ' Seat / ' . $sp->tseat . ' Seat';
+			$row[] = $sp->cepat . ' KMJ';
 			$row[] = $sp->jenis;
 			$row[] = $sp->tahun;
-			$row[] = $sp->jbus.' Bus';
-			$row[] = 'Rp '.number_format($sp->harga,0,',','.');
+			$row[] = $sp->jbus . ' Bus';
+			$row[] = 'Rp ' . number_format($sp->harga, 0, ',', '.');
 			//add html for action
-			$row[] = '<td class="text-center">'.
-			'<div class="btn-group m-1" role="group">'.
-			'<button class="btn btn-sm btn-primary" onclick="det_smart('.
-			$sp->id.
-			');" '.$pop_det.'><i class="fas fa-info-circle"></i></button>'.
-			'<button class="btn btn-sm btn-warning" onclick="edt_smart('.
-			$sp->id.
-			');" '.$pop_edt.'><i class="fas fa-pen-square"></i></button>'.
-			'<button class="btn btn-sm btn-danger" onclick="del_smart('.
-			$sp->id.
-			');" '.$pop_del.'><i class="fas fa-trash"></i></button>'.
-			'</div>'.
-			'</td>';
+			$row[] = '<td class="text-center">' .
+				'<div class="btn-group m-1" role="group">' .
+				'<button class="btn btn-sm btn-primary" onclick="det_smart(' .
+				$sp->id .
+				');" ' . $pop_det . '><i class="fas fa-info-circle"></i></button>' .
+				'<button class="btn btn-sm btn-warning" onclick="edt_smart(' .
+				$sp->id .
+				');" ' . $pop_edt . '><i class="fas fa-pen-square"></i></button>' .
+				'<button class="btn btn-sm btn-danger" onclick="del_smart(' .
+				$sp->id .
+				');" ' . $pop_del . '><i class="fas fa-trash"></i></button>' .
+				'</div>' .
+				'</td>';
 
 			$data[] = $row;
 		}
@@ -83,15 +84,15 @@ class C_perusahaan extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = '<input value="" type="checkbox" id="chk_boxes1"  name="hp[]" onchange=""/>';
-			$row[] = $sp->namap." ".$sp->bentuk;
-			$row[] = $sp->toilet.' - '.$sp->smoking;
-			$row[] = $sp->kapasitas.' Seat / '.$sp->tseat.' Seat';
-			$row[] = $sp->tipe.'"';
-			$row[] = $sp->cepat.' KMJ';
+			$row[] = $sp->namap . " " . $sp->bentuk;
+			$row[] = $sp->toilet . ' - ' . $sp->smoking;
+			$row[] = $sp->kapasitas . ' Seat / ' . $sp->tseat . ' Seat';
+			$row[] = $sp->tipe . '"';
+			$row[] = $sp->cepat . ' KMJ';
 			$row[] = $sp->jenis;
 			$row[] = $sp->tahun;
-			$row[] = $sp->jbus.' Bus';
-			$row[] = 'Rp '.number_format($sp->harga,0,',','.');
+			$row[] = $sp->jbus . ' Bus';
+			$row[] = 'Rp ' . number_format($sp->harga, 0, ',', '.');
 
 			$data[] = $row;
 		}
@@ -124,7 +125,7 @@ class C_perusahaan extends CI_Controller {
 		$bentuk = ucwords($this->input->post('bentuk'), " \t\r\n\f\v'");
 		$jenis = ucwords($this->input->post('jenis'), " \t\r\n\f\v'");
 		$cepat = ucwords($this->input->post('cepat'), " \t\r\n\f\v'");
-		$namap_bentuk = $namap."_".$bentuk;
+		$namap_bentuk = $namap . "_" . $bentuk;
 		$title = str_replace(' ', '_', $namap_bentuk);
 
 		$config['upload_path'] = './assets/img/perusahaan/';
@@ -132,10 +133,10 @@ class C_perusahaan extends CI_Controller {
 		$config['max_size']  = '3072'; // 3MB
 		$config['overwrite'] = TRUE;
 		$config['file_name'] = $title;
-		
+
 		$this->load->library('upload', $config);
-		
-		if ( ! $this->upload->do_upload('foto')){
+
+		if (!$this->upload->do_upload('foto')) {
 			if (empty($id)) {
 				$isi = array(
 					'namap' => $namap,
@@ -150,6 +151,15 @@ class C_perusahaan extends CI_Controller {
 					'tahun' => $this->input->post('tahun'),
 					'jbus' => $this->input->post('jbus'),
 					'harga' => $this->input->post('harga'),
+					'nilai_tseat' => $this->input->post('nilai_tseat'),
+					'nilai_kapasitas' => $this->input->post('nilai_kapasitas'),
+					'nilai_toilet' => $this->input->post('nilai_toilet'),
+					'nilai_smoking' => $this->input->post('nilai_smoking'),
+					'nilai_cepat' => $this->input->post('nilai_cepat'),
+					'nilai_tipe' => $this->input->post('nilai_tipe'),
+					'nilai_tahun' => $this->input->post('nilai_tahun'),
+					'nilai_jbus' => $this->input->post('nilai_jbus'),
+					'nilai_harga' => $this->input->post('nilai_harga'),
 					'foto' => 'sp1.jpeg'
 				);
 				$result = $this->msmart->insert_perusahaan($isi);
@@ -170,13 +180,21 @@ class C_perusahaan extends CI_Controller {
 					'tahun' => $this->input->post('tahun'),
 					'jbus' => $this->input->post('jbus'),
 					'harga' => $this->input->post('harga'),
+					'nilai_tseat' => $this->input->post('nilai_tseat'),
+					'nilai_kapasitas' => $this->input->post('nilai_kapasitas'),
+					'nilai_toilet' => $this->input->post('nilai_toilet'),
+					'nilai_smoking' => $this->input->post('nilai_smoking'),
+					'nilai_cepat' => $this->input->post('nilai_cepat'),
+					'nilai_tipe' => $this->input->post('nilai_tipe'),
+					'nilai_tahun' => $this->input->post('nilai_tahun'),
+					'nilai_jbus' => $this->input->post('nilai_jbus'),
+					'nilai_harga' => $this->input->post('nilai_harga'),
 					'foto' => $old_image
 				);
-				$result = $this->msmart->update_perusahaan($id,$isi);
+				$result = $this->msmart->update_perusahaan($id, $isi);
 				echo json_encode($isi);
 			}
-		}
-		else{
+		} else {
 			$data = array('upload_data' => $this->upload->data());
 			$ext = $data['upload_data']['file_ext'];
 			if (empty($id)) {
@@ -193,7 +211,16 @@ class C_perusahaan extends CI_Controller {
 					'tahun' => $this->input->post('tahun'),
 					'jbus' => $this->input->post('jbus'),
 					'harga' => $this->input->post('harga'),
-					'foto' => $title.$ext
+					'nilai_tseat' => $this->input->post('nilai_tseat'),
+					'nilai_kapasitas' => $this->input->post('nilai_kapasitas'),
+					'nilai_toilet' => $this->input->post('nilai_toilet'),
+					'nilai_smoking' => $this->input->post('nilai_smoking'),
+					'nilai_cepat' => $this->input->post('nilai_cepat'),
+					'nilai_tipe' => $this->input->post('nilai_tipe'),
+					'nilai_tahun' => $this->input->post('nilai_tahun'),
+					'nilai_jbus' => $this->input->post('nilai_jbus'),
+					'nilai_harga' => $this->input->post('nilai_harga'),
+					'foto' => $title . $ext
 				);
 				$result = $this->msmart->insert_perusahaan($isi);
 				echo json_encode($isi);
@@ -213,14 +240,23 @@ class C_perusahaan extends CI_Controller {
 					'tahun' => $this->input->post('tahun'),
 					'jbus' => $this->input->post('jbus'),
 					'harga' => $this->input->post('harga'),
-					'foto' => $title.$ext
+					'nilai_tseat' => $this->input->post('nilai_tseat'),
+					'nilai_kapasitas' => $this->input->post('nilai_kapasitas'),
+					'nilai_toilet' => $this->input->post('nilai_toilet'),
+					'nilai_smoking' => $this->input->post('nilai_smoking'),
+					'nilai_cepat' => $this->input->post('nilai_cepat'),
+					'nilai_tipe' => $this->input->post('nilai_tipe'),
+					'nilai_tahun' => $this->input->post('nilai_tahun'),
+					'nilai_jbus' => $this->input->post('nilai_jbus'),
+					'nilai_harga' => $this->input->post('nilai_harga'),
+					'foto' => $title . $ext
 				);
 				if ($old_image != "sp1.png") {
 					if ($old_image != "") {
-						unlink('./assets/img/perusahaan/'.$old_image);
+						unlink('./assets/img/perusahaan/' . $old_image);
 					}
 				}
-				$result = $this->msmart->update_perusahaan($id,$isi);
+				$result = $this->msmart->update_perusahaan($id, $isi);
 				echo json_encode($isi);
 			}
 		}
@@ -231,7 +267,7 @@ class C_perusahaan extends CI_Controller {
 		$id = $this->input->post('id');
 		$get_old_image = $this->msmart->get_foto($id);
 		$old_image = $get_old_image->foto;
-		unlink('./assets/img/perusahaan/'.$old_image);
+		unlink('./assets/img/perusahaan/' . $old_image);
 		$result = $this->msmart->delete_perusahaan($id);
 		echo json_encode($result);
 	}
@@ -240,5 +276,4 @@ class C_perusahaan extends CI_Controller {
 	{
 		return $this->msmart->count_perusahaan();
 	}
-
 }

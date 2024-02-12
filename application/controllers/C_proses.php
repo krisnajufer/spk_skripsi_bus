@@ -1,15 +1,16 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class C_proses extends CI_Controller {
+class C_proses extends CI_Controller
+{
 
 	public function __construct()
 	{
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
-		$this->load->model('M_perusahaan','msmart');
-		$this->load->model('M_admin','madmin');
-		$this->load->model('M_proses','mproses');
+		$this->load->model('M_perusahaan', 'msmart');
+		$this->load->model('M_admin', 'madmin');
+		$this->load->model('M_proses', 'mproses');
 		$this->load->helper('smart');
 	}
 
@@ -40,13 +41,13 @@ class C_proses extends CI_Controller {
 	}
 	public function splithigh($value)
 	{
-		$val = explode("+",$value);
+		$val = explode("+", $value);
 		return max($val);
 	}
 	public function bobot()
 	{
 		$hp = $this->input->post('hp');
-		if (count($hp)<2) {
+		if (count($hp) < 2) {
 			redirect('opsi');
 		}
 		$data['hp'] = $hp;
@@ -73,7 +74,7 @@ class C_proses extends CI_Controller {
 	}
 
 	// Memberikan bobot pada masing masing kriteria
-	public function setbobot($id_kriteria,$bobot)
+	public function setbobot($id_kriteria, $bobot)
 	{
 		$result = array(
 			'id_kriteria' => $id_kriteria,
@@ -82,15 +83,15 @@ class C_proses extends CI_Controller {
 		return $result;
 	}
 	// Menghitung Normalisasi Bobot
-	public function normalisasi($id_kriteria,$bobot)
+	public function normalisasi($id_kriteria, $bobot)
 	{
-		$data = $this->setbobot($id_kriteria,$bobot);
+		$data = $this->setbobot($id_kriteria, $bobot);
 		$jum = 0;
 		$normalisasi = array();
-		for($i = 0; $i < sizeof($data['bobot']); $i++){
+		for ($i = 0; $i < sizeof($data['bobot']); $i++) {
 			$jum += $data['bobot'][$i];
 		}
-		for($i = 0; $i < sizeof($data['bobot']); $i++) {
+		for ($i = 0; $i < sizeof($data['bobot']); $i++) {
 			$temp_normal = 0;
 			$temp_normal = $data['bobot'][$i] / $jum;
 			array_push($normalisasi, $temp_normal);
@@ -103,151 +104,68 @@ class C_proses extends CI_Controller {
 		return $result;
 	}
 	// Menentukan nilai Sub Kriteria sesuai dengan value kriteria
-	public function setsubkriteria($id_kriteria,$hp)
+	public function setsubkriteria($id_kriteria, $hp)
 	{
 		$dataset = $this->msmart->getanysmart($hp);
 		$subKriteria = array();
 
 		// Looping sebanyak jumlah perusahaan yang dipilih
-		for ($i=0; $i < sizeof($dataset); $i++) {
+		for ($i = 0; $i < sizeof($dataset); $i++) {
 			// Looping sebanyak jumlah kriteria
-			for ($j=0; $j < sizeof($id_kriteria); $j++) {
+			for ($j = 0; $j < sizeof($id_kriteria); $j++) {
 				// Kriteria Tipe Karoseri
-				if ($j == 0) {
-					if ($dataset[$i]->tipe > 5) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 4;
-					} else if ($dataset[$i]->tipe > 3.5) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($dataset[$i]->tipe > 3) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Toilet
-				if ($j == 1) {
-					if ($dataset[$i]->toilet > 1) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Smoking Area
-				if ($j == 2) {
-					if ($dataset[$i]->smoking > 5) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($dataset[$i]->smoking > 3) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Seat
-				if ($j == 3) {
-					if ($this->splithigh($dataset[$i]->tseat) > 2.2) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 4;
-					} else if ($this->splithigh($dataset[$i]->tseat) > 3.1) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($this->splithigh($dataset[$i]->tseat) > 10) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Belakang
-				if ($j == 4) {
-					if ($this->splithigh($dataset[$i]->kapasitas) > 20) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($this->splithigh($dataset[$i]->kapasitas) > 15) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Kecepatan Bus
-				if ($j == 5) {
-					if (preg_replace('/[^0-9\.,]/', '', $dataset[$i]->cepat) > 100) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 4;
-					} else if (preg_replace('/[^0-9\.,]/', '', $dataset[$i]->cepat) > 130) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if (preg_replace('/[^0-9\.,]/', '', $dataset[$i]->cepat) > 150) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Tahun
-				if ($j == 6) {
-					if ($dataset[$i]->tahun > 2023) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 4;
-					} else if ($dataset[$i]->tahun > 2022) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($dataset[$i]->tahun > 2021) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Jumlah bus
-				if ($j == 7) {
-					if ($dataset[$i]->jbus > 50) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 4;
-					} else if ($dataset[$i]->jbus > 30) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($dataset[$i]->jbus > 20) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
-				// Kriteria Harga
-				if ($j == 8) {
-					if ($dataset[$i]->harga > 5000000) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 4;
-					} else if ($dataset[$i]->harga > 3500000) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 3;
-					} else if ($dataset[$i]->harga > 2000000) {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 2;
-					} else {
-						$subKriteria[$dataset[$i]->id]['subkriteria'][$j] = 1;
-					}
-				}
+				$subKriteria[$dataset[$i]->id]['subkriteria'][0] = $dataset[$i]->nilai_tipe;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][1] = $dataset[$i]->nilai_toilet;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][2] = $dataset[$i]->nilai_smoking;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][3] = $dataset[$i]->nilai_tseat;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][4] = $dataset[$i]->nilai_kapasitas;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][5] = $dataset[$i]->nilai_cepat;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][6] = $dataset[$i]->nilai_tahun;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][7] = $dataset[$i]->nilai_jbus;
+				$subKriteria[$dataset[$i]->id]['subkriteria'][8] = $dataset[$i]->nilai_harga;
 			}
 		}
+
 		return $subKriteria;
 	}
 	// Menghitung Utilities Score dengan Rumus = (Cout-Cmin)/(Cmax-Cmin)
-	public function getValueUtilities($id_kriteria,$hp)
+	public function getValueUtilities($id_kriteria, $hp)
 	{
-		$data = $this->setsubkriteria($id_kriteria,$hp);
+		$data = $this->setsubkriteria($id_kriteria, $hp);
 		$temp_data = array();
 		foreach ($id_kriteria as $key => $value) {
 			$temp_data[] =  $key;
 		}
-		for($i = 0; $i < sizeof($data); $i++) {
+		for ($i = 0; $i < sizeof($data); $i++) {
 			$max = max($data[$hp[$i]]['subkriteria']);
 			$min = min($data[$hp[$i]]['subkriteria']);
-			for ($j = 0; $j < sizeof($id_kriteria); $j++) { 
-				if($j == $temp_data[$j]) {
-					$cout = ($data[$hp[$i]]['subkriteria'][$j] - $min) / ($max - $min);
-					$data[$hp[$i]]['value_utilities'][$j] = $cout;
+			for ($j = 0; $j < sizeof($id_kriteria); $j++) {
+				if ($j == $temp_data[$j]) {
+					if ($data[$hp[$i]]['subkriteria'][$j] - $min !== 0 || $max - $min !== 0) {
+						$cout = ($data[$hp[$i]]['subkriteria'][$j] - $min) / (($max - $min));
+						$data[$hp[$i]]['value_utilities'][$j] = $cout;
+					} else {
+						$cout = 0;
+						$data[$hp[$i]]['value_utilities'][$j] = $cout;
+					}
 				}
 			}
 		}
+
 		return $data;
 	}
 	// Mengalikan Utilities Score dengan Normalisasi
-	public function getScore($id_kriteria,$hp,$bobot)
+	public function getScore($id_kriteria, $hp, $bobot)
 	{
-		$data = $this->getValueUtilities($id_kriteria,$hp);
-		$normalisasi = $this->normalisasi($id_kriteria,$bobot);
+		$data = $this->getValueUtilities($id_kriteria, $hp);
+		$normalisasi = $this->normalisasi($id_kriteria, $bobot);
 		$temp_data = array();
 		foreach ($id_kriteria as $key => $value) {
 			$temp_data[] =  $key;
 		}
-		for($i = 0; $i < sizeof($data); $i++) {
-			for ($j = 0; $j < sizeof($id_kriteria) ; $j++) { 
-				if($j == $temp_data[$j]) {
+		for ($i = 0; $i < sizeof($data); $i++) {
+			for ($j = 0; $j < sizeof($id_kriteria); $j++) {
+				if ($j == $temp_data[$j]) {
 					$total = $data[$hp[$i]]['value_utilities'][$j] * $normalisasi['normalisasi'][$j];
 					$data[$hp[$i]]['normalisasi'][$j] = $normalisasi['normalisasi'][$j];
 					$data[$hp[$i]]['total'][$j] = $total;
@@ -257,15 +175,15 @@ class C_proses extends CI_Controller {
 		return $data;
 	}
 	// Mendapatkan Score Akhir Perhitungan
-	public function getTotalScore($id_kriteria,$hp,$bobot)
+	public function getTotalScore($id_kriteria, $hp, $bobot)
 	{
-		$data = $this->getScore($id_kriteria,$hp,$bobot);
+		$data = $this->getScore($id_kriteria, $hp, $bobot);
 		$temp_data = array();
-		for($i = 0; $i < sizeof($data); $i++) {
+		for ($i = 0; $i < sizeof($data); $i++) {
 			$temp_data[] =  $i;
 		}
-		for($i = 0; $i < sizeof($data); $i++) {
-			if($i == $temp_data[$i]) {
+		for ($i = 0; $i < sizeof($data); $i++) {
+			if ($i == $temp_data[$i]) {
 				$score = array_sum($data[$hp[$i]]['total']);
 				$data[$hp[$i]]['final_score'][0] = $score;
 			}
@@ -273,18 +191,18 @@ class C_proses extends CI_Controller {
 		return $data;
 	}
 	// Proses Perhitungan
-	public function insertPerhitungan($id_kriteria,$hp,$bobot)
+	public function insertPerhitungan($id_kriteria, $hp, $bobot)
 	{
 		$createPerhitungan = $this->mproses->createPerhitungan();
 		if ($createPerhitungan) {
 			$getLastIdPerhitungan = $this->mproses->getLastIdPerhitungan();
 			$id_perhitungan = $getLastIdPerhitungan->id_perhitungan;
-			$perhitungan = $this->getTotalScore($id_kriteria,$hp,$bobot);
+			$perhitungan = $this->getTotalScore($id_kriteria, $hp, $bobot);
 			$isInsert = false;
 			$isInsertNormal = false;
 
 
-			for ($i=0; $i < sizeof($perhitungan); $i++) { 
+			for ($i = 0; $i < sizeof($perhitungan); $i++) {
 				$temp_hp = $hp[$i];
 				$temp_score = $perhitungan[$hp[$i]]['final_score'][0];
 				$val = array(
@@ -299,7 +217,7 @@ class C_proses extends CI_Controller {
 				if ($isInsert) {
 					$getLastIdDetailPerhitungan = $this->mproses->getLastIdDetailPerhitungan();
 					$id_detail = $getLastIdDetailPerhitungan->id_detail;
-					for ($j=0; $j < sizeof($id_kriteria); $j++) { 
+					for ($j = 0; $j < sizeof($id_kriteria); $j++) {
 						$temp_normalisasi = $perhitungan[$hp[$i]]['normalisasi'][$j];
 						$temp_utility = $perhitungan[$hp[$i]]['value_utilities'][$j];
 						$normal = array(
@@ -332,8 +250,8 @@ class C_proses extends CI_Controller {
 	public function countdata()
 	{
 		$bobot = array();
-		for ($i=1; $i <= $this->madmin->pertanyaan_all(); $i++) {
-			$bbt = $this->input->post('bobot'.$i);
+		for ($i = 1; $i <= $this->madmin->pertanyaan_all(); $i++) {
+			$bbt = $this->input->post('bobot' . $i);
 			$bobot[] .= $bbt;
 		}
 		$id_kriteria = $this->input->post('id_kriteria');
@@ -343,12 +261,12 @@ class C_proses extends CI_Controller {
 		if ($createPerhitungan) {
 			$getLastIdPerhitungan = $this->mproses->getLastIdPerhitungan();
 			$id_perhitungan = $getLastIdPerhitungan->id_perhitungan;
-			$perhitungan = $this->getTotalScore($id_kriteria,$hp,$bobot);
+			$perhitungan = $this->getTotalScore($id_kriteria, $hp, $bobot);
 			$isInsert = false;
 			$isInsertNormal = false;
 
 
-			for ($i=0; $i < sizeof($perhitungan); $i++) { 
+			for ($i = 0; $i < sizeof($perhitungan); $i++) {
 				$temp_hp = $hp[$i];
 				$temp_score = $perhitungan[$hp[$i]]['final_score'][0];
 				$val = array(
@@ -362,7 +280,7 @@ class C_proses extends CI_Controller {
 				if ($isInsert) {
 					$getLastIdDetailPerhitungan = $this->mproses->getLastIdDetailPerhitungan();
 					$id_detail = $getLastIdDetailPerhitungan->id_detail;
-					for ($j=0; $j < sizeof($id_kriteria); $j++) { 
+					for ($j = 0; $j < sizeof($id_kriteria); $j++) {
 						$temp_normalisasi = $perhitungan[$hp[$i]]['normalisasi'][$j];
 						$temp_utility = $perhitungan[$hp[$i]]['value_utilities'][$j];
 						$normal = array(
@@ -398,8 +316,8 @@ class C_proses extends CI_Controller {
 	public function result()
 	{
 		$bobot = array();
-		for ($i=1; $i <= $this->madmin->pertanyaan_all(); $i++) {
-			$bbt = $this->input->post('bobot'.$i);
+		for ($i = 1; $i <= $this->madmin->pertanyaan_all(); $i++) {
+			$bbt = $this->input->post('bobot' . $i);
 			$bobot[] .= $bbt;
 		}
 		$id_kriteria = $this->input->post('id_kriteria');
@@ -414,7 +332,7 @@ class C_proses extends CI_Controller {
 			$limit = count($hp);
 		}
 		if ($hp || $id_kriteria) {
-			$data['hasil'] = $this->insertPerhitungan($id_kriteria,$hp,$bobot);
+			$data['hasil'] = $this->insertPerhitungan($id_kriteria, $hp, $bobot);
 		}
 		$data['title'] = 'Hasil Rekomendasi';
 		$data['limit'] = $limit;
@@ -431,7 +349,7 @@ class C_proses extends CI_Controller {
 		if (false !== $key = array_search($id, $arr)) {
 			unset($arr[$key]);
 		} else {
-			array_push($arr,$id);
+			array_push($arr, $id);
 		}
 		// return $arr;
 		echo json_encode($arr);
@@ -441,7 +359,7 @@ class C_proses extends CI_Controller {
 	{
 		$hp = $this->input->post('hp');
 		if ($hp) {
-			for ($i=0; $i < count($hp); $i++) {
+			for ($i = 0; $i < count($hp); $i++) {
 				$data = $this->msmart->get_perusahaan($hp[$i]);
 				$get[] = $data;
 			}
@@ -483,5 +401,4 @@ class C_proses extends CI_Controller {
 		$this->load->view('modal/mdl_adduser', $data);
 		$this->load->view('template/us_foot', $data);
 	}
-
 }

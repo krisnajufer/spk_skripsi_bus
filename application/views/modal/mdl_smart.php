@@ -7,7 +7,7 @@
 			<form method="POST" enctype="multipart/form-data" id="form_smart">
 				<div class="modal-body">
 					<div class="row justify-content-center">
-						<div class="col-4">
+						<div class="col">
 							<input type="text" name="id" class="form-control" hidden>
 							<div class="row">
 								<div class="col">
@@ -32,8 +32,22 @@
 								</div>
 								<div class="col">
 									<div class="form-group">
+										<label>Bobot Tipe Bus</label>
+										<input type="number" min="1" max="4" name="nilai_tipe" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
 										<label>Tahun Rilis</label>
 										<input type="number" min="2018" name="tahun" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Bobot Tahun Rilis</label>
+										<input type="number" min="1" max="4" name="nilai_tahun" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -46,8 +60,22 @@
 								</div>
 								<div class="col">
 									<div class="form-group">
+										<label>Bobot Toilet</label>
+										<input type="number" min="1" max="4" name="nilai_toilet" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
 										<label>Smoking Area</label>
 										<input type="number" min="0" name="smoking" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Bobot Smoking Area</label>
+										<input type="number" min="1" max="4" name="nilai_smoking" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -60,17 +88,96 @@
 								</div>
 								<div class="col">
 									<div class="form-group">
-										<label>Seat style</label>
-										<input type="number" min="2" step="0.1" name="tseat" class="form-control">
+										<label>Bobot Kapasitas</label>
+										<input type="number" min="1" max="4" name="nilai_kapasitas" class="form-control">
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-3">
-							<div class="form-group">
-								<label>Kecepatan Bus</label>
-								<input type="number" min="100" step="10" name="cepat" class="form-control">
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label>Seat style</label>
+										<input type="number" min="2" step="0.1" name="tseat" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Bobot Seat style</label>
+										<input type="number" min="1" max="4" name="nilai_tseat" class="form-control">
+									</div>
+								</div>
 							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label>Kecepatan Bus</label>
+										<input type="number" min="100" step="10" name="cepat" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Bobot Kecepatan Bus</label>
+										<input type="number" min="0" max="4" name="nilai_cepat" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label>Jumlah Bus</label>
+										<input type="number" min="1" name="jbus" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Bobot Jumlah Bus</label>
+										<input type="number" min="1" max="4" name="nilai_jbus" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label>Harga</label>
+										<input type="number" min="2000000" step="100000" name="harga" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Bobot Harga</label>
+										<input type="number" min="1" max="4" name="nilai_harga" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label>Jenis Bus</label>
+										<input type="text" name="jenis" class="form-control">
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label>Foto Bus</label>
+										<div class="custom-file">
+											<input type="file" name="foto" class="form-control custom-file-input" accept="image/*" id="foto" onchange="previewImage();">
+											<label class="custom-file-label" for="foto">Pilih Foto</label>
+											<small>(.jpg atau .png | Max 2MB)</small>
+										</div>
+										<center>
+											<p hidden id="det_image"></p>
+											<img id="image-preview" style="height: 200px;width: auto;">
+										</center>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<!-- <div class="col-3">
+							
 							<div class="form-group">
 								<label>Jenis Bus</label>
 								<input type="text" name="jenis" class="form-control">
@@ -97,7 +204,7 @@
 									<img id="image-preview" style="height: 200px;width: auto;">
 								</center>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="modal-footer form-group justify-content-center">
