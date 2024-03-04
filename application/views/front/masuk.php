@@ -16,7 +16,7 @@
 						<label for="password" class="small">Password</label>
 						<input type="password" name="password" id="password" class="form-control text-center" placeholder="Password" required="yes">
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col">
 							<div class="form-group">
 								<label>Masuk Sebagai :</label>
@@ -30,7 +30,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</form>
 				<button class="btn btn-primary btn-block" id="btn_flogin">
 					<i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Masuk

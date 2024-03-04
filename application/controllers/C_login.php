@@ -1,13 +1,14 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class C_login extends CI_Controller {
+class C_login extends CI_Controller
+{
 
 	public function __construct()
 	{
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
-		$this->load->model('M_login','mlogin');
+		$this->load->model('M_login', 'mlogin');
 	}
 
 	public function index()
@@ -61,10 +62,36 @@ class C_login extends CI_Controller {
 
 	public function check_login()
 	{
-		if ($this->input->post('login_as')=="admin") {
-			$this->check_login_admin();
-		} elseif ($this->input->post('login_as')=="user") {
-			$this->check_login_user();
+		// if ($this->input->post('login_as')=="admin") {
+		// 	$this->check_login_admin();
+		// } elseif ($this->input->post('login_as')=="user") {
+		// 	$this->check_login_user();
+		// } else {
+		// 	return false;
+		// }
+
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$admin_login = $this->mlogin->login($username, $password);
+		$user_login = $this->mlogin->login_user($username, $password);
+		if ($admin_login) {
+			// update login
+			$this->mlogin->update_login($username);
+			// re-set value untuk update time
+			$data = $this->mlogin->login($username, $password);
+			// set sesi
+			$this->session->set_userdata('admin', $data);
+			$this->session->set_flashdata('berhasil', ['type' => 'success', 'title' => 'Selamat Datang ' . $this->session->userdata('admin')['nama']]);
+			echo "benar";
+		} else if ($user_login) {
+			// update login
+			$this->mlogin->update_login_user($username);
+			// re-set value untuk update time
+			$data = $this->mlogin->login_user($username, $password);
+			// set sesi
+			$this->session->set_userdata('user', $data);
+			$this->session->set_flashdata('berhasil', ['type' => 'success', 'title' => 'Selamat Datang ' . $this->session->userdata('user')['nama']]);
+			echo "benar";
 		} else {
 			return false;
 		}
@@ -73,15 +100,15 @@ class C_login extends CI_Controller {
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$data = $this->mlogin->login($username,$password);
+		$data = $this->mlogin->login($username, $password);
 		if ($data) {
 			// update login
 			$this->mlogin->update_login($username);
 			// re-set value untuk update time
-			$data = $this->mlogin->login($username,$password);
+			$data = $this->mlogin->login($username, $password);
 			// set sesi
-			$this->session->set_userdata('admin',$data);
-			$this->session->set_flashdata('berhasil', ['type' => 'success', 'title' => 'Selamat Datang '.$this->session->userdata('admin')['nama']]);
+			$this->session->set_userdata('admin', $data);
+			$this->session->set_flashdata('berhasil', ['type' => 'success', 'title' => 'Selamat Datang ' . $this->session->userdata('admin')['nama']]);
 			echo "benar";
 		} else {
 			return false;
@@ -91,15 +118,15 @@ class C_login extends CI_Controller {
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$data = $this->mlogin->login_user($username,$password);
+		$data = $this->mlogin->login_user($username, $password);
 		if ($data) {
 			// update login
 			$this->mlogin->update_login_user($username);
 			// re-set value untuk update time
-			$data = $this->mlogin->login_user($username,$password);
+			$data = $this->mlogin->login_user($username, $password);
 			// set sesi
-			$this->session->set_userdata('user',$data);
-			$this->session->set_flashdata('berhasil', ['type' => 'success', 'title' => 'Selamat Datang '.$this->session->userdata('user')['nama']]);
+			$this->session->set_userdata('user', $data);
+			$this->session->set_flashdata('berhasil', ['type' => 'success', 'title' => 'Selamat Datang ' . $this->session->userdata('user')['nama']]);
 			echo "benar";
 		} else {
 			return false;
@@ -131,8 +158,7 @@ class C_login extends CI_Controller {
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$data = array('password' => $password);
-		$res = $this->mlogin->respass_user($username,$data);
+		$res = $this->mlogin->respass_user($username, $data);
 		echo json_encode($res);
 	}
-
 }
